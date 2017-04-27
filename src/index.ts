@@ -6,7 +6,7 @@ export interface Dask {
 	[key: string]: string | number | boolean | Object | { [fun: string]: any[]; };
 }
 
-export async function get(dsk: Dask, result: string/* | string[]*/, funcs: { [fun: string]: Function; }) {
+export async function get(dsk: Dask, result: string/* | string[]*/, funcs: { [fun: string]: Function; }): Promise<any> {
 	const v = dsk[result];
 	// console.log(`*********${result}**********`);
 	// console.info(dsk);

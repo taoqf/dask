@@ -10,7 +10,6 @@ gulp.task('compile-ts', (cb) => {
 	const tsProject = ts.createProject('./tsconfig.json');
 	// tsProject.options.module = 1;	// 'none' 0, 'CommonJS' 1, 'Amd' 2, 'System' 3, 'UMD' 4, or 'es2015'.5
 	const dest = tsProject.options.outDir;
-	console.info(tsProject.exclude);
 	return tsProject.src()
 		.pipe(tsProject())
 		.pipe(gulp.dest(dest));
@@ -18,100 +17,33 @@ gulp.task('compile-ts', (cb) => {
 
 gulp.task('default', function (cb) {
 	const sequence = require('gulp-sequence');
-	sequence('clean', 'compile-ts', 'webpack', cb);
+	return sequence('clean', 'compile-ts', 'pack', 'min', cb);
 });
 
-gulp.task('webpack', function (cb) {
-	let dest = './dist/dask.min.js';
-	const path = require('path');
-	const ws = require('webpack-stream');
+gulp.task('pack', function () {
+	const browserify = require('browserify');
+	const fs = require('fs');
+	return browserify(['./dist/index.js'], {
+		standalone: 'dask'
+	})
+		.bundle()
+		.pipe(fs.createWriteStream('./dist/dask.js'));
+});
+
+gulp.task('min', function (cb) {
+	const rename = require('gulp-rename');
 	const babel = require('gulp-babel');
-	const named = require('vinyl-named');
-	// const uglyfly = require('gulp-uglyfly');
-	const webpack = require('webpack');
-	const uglyfly = new webpack.optimize.UglifyJsPlugin({
-		sourceMap: false
-	});
-
-	return gulp.src(['./dist/index.js'])
-		// .pipe(named())
-		// .pipe(babel({
-		// 	// presets: ['es2015'],
-		// 	plugins: [
-		// 		'transform-es2015-template-literals',
-		// 		'transform-es2015-literals',
-		// 		'transform-es2015-function-name',
-		// 		'transform-es2015-arrow-functions',
-		// 		'transform-es2015-block-scoped-functions',
-		// 		'transform-es2015-classes',
-		// 		'transform-es2015-object-super',
-		// 		'transform-es2015-shorthand-properties',
-		// 		'transform-es2015-computed-properties',
-		// 		'transform-es2015-for-of',
-		// 		'transform-es2015-sticky-regex',
-		// 		'transform-es2015-unicode-regex',
-		// 		'check-es2015-constants',
-		// 		'transform-es2015-spread',
-		// 		'transform-es2015-parameters',
-		// 		'transform-es2015-destructuring',
-		// 		'transform-es2015-block-scoping',
-		// 		'transform-es2015-typeof-symbol',
-		// 		['transform-regenerator', { async: false, asyncGenerators: false }],
-		// 	]
-		// }))
-		.pipe(ws({
-			plugins: [uglyfly],
-			externals: [],
-			output: {
-				publicPath: dest,
-				// libraryTarget: 'umd',
-				// umdNamedDefine: true
-			},
-			resolve: {
-				modules: [
-					path.resolve('src'),
-					"node_modules"
-				],
-				alias: {
-					// 'wx': 'jweixin',
-					'weui': 'weui.js',
-					'dot': 'dot/doT.js'
-				}
-			},
-			module: {
-				// Disable handling of unknown requires
-				// unknownContextRegExp: /$^/,
-				// unknownContextRegExp: /c00001/,
-				unknownContextCritical: true,
-
-				// Disable handling of requires with a single expression
-				exprContextRegExp: /$^/,
-				exprContextCritical: false,
-
-				// Warn for every expression in require
-				wrappedContextCritical: true,
-				rules: [
-					// { test: /\.js$/, exclude: /(node_modules|bower_components)/, loader: 'babel', query: {/*presets:['es2015']*/}, plugins: ['transform-runtime']},	// error here: Error: The node API for `babel` has been moved to `babel-core`.
-					{
-						test: /\.(hson|json)$/,
-						loader: 'hson-loader'
-					}, {
-						test: /\.(tpl|nools|md|ts)$/,
-						loader: 'raw-loader'
-					},
-					{
-						test: /\.js$/,
-						exclude: /node_modules/,
-						loader: 'babel-loader',
-						query: {
-							presets: ['es2015']
-						}
-					}
-				]
-			}
-		}, webpack))
-		// .pipe(uglyfly())
-		.pipe(gulp.dest(dest));
+	const uglify = require('gulp-uglify');
+	const pump = require('pump');
+	pump([
+		gulp.src('./dist/dask.js'),
+		babel({
+			presets: ['latest']
+		}),
+		uglify(),
+		rename('dask.min.js'),
+		gulp.dest('./dist/')
+	], cb);
 });
 
 gulp.task('watch-ts', () => {
