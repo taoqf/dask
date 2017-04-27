@@ -15,9 +15,14 @@ gulp.task('compile-ts', (cb) => {
 		.pipe(gulp.dest(dest));
 });
 
+gulp.task('copy-files', () => {
+	return gulp.src('./package.json')
+		.pipe(gulp.dest('./dist/'));
+});
+
 gulp.task('default', function (cb) {
 	const sequence = require('gulp-sequence');
-	return sequence('clean', 'compile-ts', 'pack', 'min', cb);
+	return sequence('clean', 'compile-ts', 'pack', 'min', 'copy-files', cb);
 });
 
 gulp.task('pack', function () {
