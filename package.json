@@ -1,0 +1,46 @@
+{
+	"name": "dask",
+	"version": "1.0.0",
+	"description": "Task schadule in JavaScript",
+	"main": "index.js",
+	"scripts": {
+		"test": "node ./tests/"
+	},
+	"keywords": [
+		"typescript",
+		"dask",
+		"task schadule",
+		"javascript"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/taoqf/dask.git"
+	},
+	"author": "taoqf",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/taoqf/dask/issues"
+	},
+	"homepage": "https://github.com/taoqf/dask#readme",
+	"dependencies": {
+		"lodash-ts": "latest"
+	},
+	"devDependencies": {
+		"babel-plugin-transform-es2015-classes": "latest",
+		"babel-plugin-transform-es2015-parameters": "latest",
+		"babel-plugin-transform-es5-property-mutators": "latest",
+		"babel-plugin-transform-jscript": "latest",
+		"babel-plugin-transform-regenerator": "latest",
+		"babel-preset-es2015": "latest",
+		"del": "latest",
+		"gulp": "latest",
+		"gulp-babel": "latest",
+		"gulp-sequence": "latest",
+		"gulp-typescript": "latest",
+		"gulp-uglyfly": "latest",
+		"typescript": "next",
+		"vinyl-named": "latest",
+		"webpack": "latest",
+		"webpack-stream": "latest"
+	}
+}
