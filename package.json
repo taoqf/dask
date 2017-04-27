@@ -1,43 +1,43 @@
 {
-	"name": "dask",
-	"version": "1.0.0",
-	"description": "Task schadule in JavaScript",
-	"main": "index.js",
-	"scripts": {
-		"test": "node ./tests/"
-	},
-	"keywords": [
-		"typescript",
-		"dask",
-		"task schadule",
-		"javascript"
-	],
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/taoqf/dask.git"
-	},
-	"author": "taoqf",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/taoqf/dask/issues"
-	},
-	"homepage": "https://github.com/taoqf/dask#readme",
-	"dependencies": {
-		"lodash-ts": "latest"
-	},
-	"devDependencies": {
-		"babel-preset-latest": "latest",
-		"browserify": "latest",
-		"del": "latest",
-		"gulp": "latest",
-		"gulp-babel": "latest",
-		"gulp-rename": "latest",
-		"gulp-sequence": "latest",
-		"gulp-typescript": "latest",
-		"gulp-uglify": "latest",
-		"pump": "latest",
-		"typescript": "next",
-		"webpack": "latest",
-		"webpack-stream": "latest"
-	}
+  "name": "dask",
+  "version": "1.0.0-dev.201704271144",
+  "description": "Task schadule in JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./tests/"
+  },
+  "keywords": [
+    "typescript",
+    "dask",
+    "task schadule",
+    "javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taoqf/dask.git"
+  },
+  "author": "taoqf",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/taoqf/dask/issues"
+  },
+  "homepage": "https://github.com/taoqf/dask#readme",
+  "dependencies": {
+    "lodash-ts": "latest"
+  },
+  "devDependencies": {
+    "babel-preset-latest": "latest",
+    "browserify": "latest",
+    "del": "latest",
+    "gulp": "latest",
+    "gulp-babel": "latest",
+    "gulp-rename": "latest",
+    "gulp-sequence": "latest",
+    "gulp-typescript": "latest",
+    "gulp-uglify": "latest",
+    "pump": "latest",
+    "typescript": "next",
+    "webpack": "latest",
+    "webpack-stream": "latest"
+  }
 }
