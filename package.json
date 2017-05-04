@@ -12,10 +12,7 @@
     "task schadule",
     "javascript"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/taoqf/dask.git"
-  },
+  "repository": "git+https://github.com/taoqf/dask.git",
   "author": "taoqf",
   "license": "MIT",
   "bugs": {
