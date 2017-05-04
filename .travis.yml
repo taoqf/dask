@@ -2,6 +2,5 @@ language: node_js
 node_js:
   - "7.9"
 before_script:
-  - npm install -g gulp yarn
+  - npm install -g gulp
 script: gulp
-cache: yarn
