@@ -11,8 +11,8 @@ class Deferred<T> extends Promise<T> {
 	reject: (reason?: any) => void;
 	fullfiled: boolean;
 	constructor() {
-		let rs: (value?: T | PromiseLike<T>) => void;
-		let rj: (reason?: any) => void;
+		let rs: (value?: T | PromiseLike<T>) => void = null as any;
+		let rj: (reason?: any) => void = null as any;
 		super((resolve, reject) => {
 			rs = resolve;
 			rj = reject;
@@ -30,12 +30,9 @@ export async function get(dsk: Dask, result: string/* | string[]*/, funcs: { [fu
 
 async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: string]: Deferred<any> }, funcs: { [fun: string]: Function; }): Promise<any> {
 	const v = dsk[result];
-	console.log(`*********${result}*********`);
-	// console.info(cache);
 	if (result in cache) {
 		return await cache[result];
 	}
-	console.log(`=========${result}=========`);
 	const deferred = new Deferred<any>();
 	cache[result] = deferred;
 	if (isObject(v)) {
