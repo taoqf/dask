@@ -1,7 +1,7 @@
-const del = require('del');
 const gulp = require('gulp');
 
 gulp.task('clean', function () {
+	const del = require('del');
 	return del('./dist/');
 });
 
