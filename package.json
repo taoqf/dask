@@ -1,6 +1,6 @@
 {
   "name": "dask",
-  "version": "1.0.0-dev.201704271746",
+  "version": "1.0.0-dev.201705040937",
   "description": "Task schadule in JavaScript",
   "main": "index.js",
   "scripts": {
