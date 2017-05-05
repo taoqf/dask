@@ -22,7 +22,7 @@ gulp.task('copy-files', () => {
 
 gulp.task('default', function (cb) {
 	const sequence = require('gulp-sequence');
-	return sequence('clean', 'compile-ts', 'pack', /*'min', */'copy-files', cb);
+	return sequence('clean', 'compile-ts', 'pack', 'min', 'copy-files', cb);
 });
 
 gulp.task('pack', function () {
@@ -35,7 +35,6 @@ gulp.task('pack', function () {
 		.pipe(fs.createWriteStream('./dist/dask.js'));
 });
 
-// todo: this task could not generate the right min file, remove from default task for now.
 gulp.task('min', function (cb) {
 	const rename = require('gulp-rename');
 	const babel = require('gulp-babel');
@@ -44,7 +43,8 @@ gulp.task('min', function (cb) {
 	pump([
 		gulp.src('./dist/dask.js'),
 		babel({
-			presets: ['latest']
+			presets: ['latest'],
+			plugins:['transform-runtime']
 		}),
 		uglify(),
 		rename('dask.min.js'),
