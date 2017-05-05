@@ -28,6 +28,8 @@ export async function get(dsk: Dask, result: string/* | string[]*/, funcs: { [fu
 	return await _get(dsk, result, cache, funcs);
 }
 
+export default get;
+
 async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: string]: Deferred<any> }, funcs: { [fun: string]: Function; }): Promise<any> {
 	const v = dsk[result];
 	if (result in cache) {
