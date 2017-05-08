@@ -6,20 +6,15 @@ export interface Dask {
 	[key: string]: string | number | boolean | Object | { [fun: string]: any[]; };
 }
 
-class Deferred<T> extends Promise<T> {
+class Deferred<T> {
+	promise: Promise<T>;
 	resolve: (value?: T | PromiseLike<T>) => void;
 	reject: (reason?: any) => void;
-	fullfiled: boolean;
 	constructor() {
-		let rs: (value?: T | PromiseLike<T>) => void = null as any;
-		let rj: (reason?: any) => void = null as any;
-		super((resolve, reject) => {
-			rs = resolve;
-			rj = reject;
+		this.promise = new Promise((resolve, reject) => {
+			this.resolve = resolve;
+			this.reject = reject;
 		});
-		this.resolve = rs;
-		this.reject = rj;
-		this.fullfiled = false;
 	}
 }
 
@@ -31,9 +26,12 @@ export async function get(dsk: Dask, result: string/* | string[]*/, funcs: { [fu
 export default get;
 
 async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: string]: Deferred<any> }, funcs: { [fun: string]: Function; }): Promise<any> {
+	if (!(result in dsk)) {
+		return result;
+	}
 	const v = dsk[result];
 	if (result in cache) {
-		return await cache[result];
+		return cache[result].promise;
 	}
 	const deferred = new Deferred<any>();
 	cache[result] = deferred;

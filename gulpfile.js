@@ -44,7 +44,7 @@ gulp.task('min', function (cb) {
 		gulp.src('./dist/dask.js'),
 		babel({
 			presets: ['latest'],
-			plugins:['transform-runtime']
+			plugins: ['transform-runtime']
 		}),
 		uglify(),
 		rename('dask.min.js'),

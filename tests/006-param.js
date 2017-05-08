@@ -1,7 +1,7 @@
 const dask = require('../dist/index');
 
 function add(x, y) {
-	console.log('cache add', x, y);
+	console.log('param: add', x, y);
 	return x + y;
 }
 
@@ -10,7 +10,7 @@ async function test() {
 		x: 1,
 		y: 2,
 		z: {
-			add: ['x', 'y']
+			add: [1, 2]
 		},
 		u: 'z',
 		v: 'z',
@@ -20,7 +20,7 @@ async function test() {
 	};
 	const funcs = { add };
 	const w = await dask.get(dsk, 'w', funcs);
-	console.log('w:', w);
+	console.log('param:w:', w);
 }
 
 test();
