@@ -15,6 +15,18 @@ gulp.task('compile-ts', (cb) => {
 		.pipe(gulp.dest(dest));
 });
 
+gulp.task('compile-ts-umd', async () => {
+	const ts = require('gulp-typescript');
+	const tsProject = ts.createProject('./tsconfig.json');
+	tsProject.options.module = 3;
+	const path = require('path');
+	const dest = path.join(tsProject.options.outDir, 'umd');
+	tsProject.options.outDir = dest;
+	return gulp.src('./src/**/*.ts')
+		.pipe(tsProject())
+		.pipe(gulp.dest(dest));
+});
+
 gulp.task('copy-files', () => {
 	return gulp.src('./package.json')
 		.pipe(gulp.dest('./dist/'));
@@ -22,7 +34,7 @@ gulp.task('copy-files', () => {
 
 gulp.task('default', function (cb) {
 	const sequence = require('gulp-sequence');
-	return sequence('clean', 'compile-ts', 'pack', 'min', 'copy-files', cb);
+	return sequence('clean', 'compile-ts', 'pack', 'min', 'copy-files', 'compile-ts-umd', cb);
 });
 
 gulp.task('pack', function () {
