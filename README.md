@@ -31,7 +31,7 @@ test();
 ```
 2.
 ```javascript
-import * as dask from 'dask';
+import dask from 'dask';
 
 function add(x, y) {
 	console.log('add promise');
@@ -59,7 +59,7 @@ test();
 ```
 3.
 ```javascript
-import * as dask from 'dask';
+import dask from 'dask';
 
 const x = 1;
 function add(y) {
@@ -83,7 +83,7 @@ test();
 ```
 4.
 ```javascript
-import * as dask from 'dask';
+import dask from 'dask';
 
 function inc(x) {
 	console.log('promise inc', x);
