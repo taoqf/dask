@@ -30,7 +30,7 @@ async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: str
 		return result;
 	}
 	const v = dsk[result];
-	console.log('dask-pending:', result);
+	// console.log('dask-pending:', result);
 	if (v == result) {
 		console.log('dask-resolved', result, '=', v);
 		return v;
@@ -47,10 +47,11 @@ async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: str
 			const fun = funcs[fun_name];
 			if (isFunction(fun)) {
 				const args = (v[fun_name] || []) as any[];
+				// console.log('dask-calling fun=', fun_name);
 				const val = await fun.apply(null, await Promise.all(args.map((arg) => {
 					return _get(dsk, arg, cache, funcs);
 				})));
-				console.log('dask-resolved', result, '=', val);
+				console.log('dask-resolved fun=', fun_name, result, '=', val);
 				deferred.resolve(val);
 				return val;
 			}
