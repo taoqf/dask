@@ -30,9 +30,9 @@ async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: str
 		return result;
 	}
 	const v = dsk[result];
-	console.log(result, 'dask-pending');
+	console.log('dask-pending:', result);
 	if (v == result) {
-		console.log('key=', result, 'value=', v, 'dask-resolved');
+		console.log('dask-resolved', result, '=', v);
 		return v;
 	}
 	if (result in cache) {
@@ -50,7 +50,7 @@ async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: str
 				const val = await fun.apply(null, await Promise.all(args.map((arg) => {
 					return _get(dsk, arg, cache, funcs);
 				})));
-				console.log('key=', result, 'value=', val, 'dask-resolved');
+				console.log('dask-resolved', result, '=', val);
 				deferred.resolve(val);
 				return val;
 			}
@@ -60,13 +60,13 @@ async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: str
 			const d = dsk[v as string];
 			if (d) {
 				const val = await _get(dsk, v as string, cache, funcs);
-				console.log('key=', result, 'value=', val, 'dask-resolved');
+				console.log('dask-resolved', result, '=', val);
 				deferred.resolve(val);
 				return val;
 			}
 		}
 	}
-	console.log('key=', result, 'value=', v, 'dask-resolved');
+	console.log('dask-resolved', result, '=', v);
 	deferred.resolve(v);
 	return v;
 }
