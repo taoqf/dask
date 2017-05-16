@@ -30,6 +30,11 @@ async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: str
 		return result;
 	}
 	const v = dsk[result];
+	console.log(`dask-pend:${result}`);
+	if (v == result) {
+		console.log(`dask-resolve:key=${result};value=${v}`);
+		return v;
+	}
 	if (result in cache) {
 		return cache[result].promise;
 	}
@@ -45,6 +50,7 @@ async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: str
 				const val = await fun.apply(null, await Promise.all(args.map((arg) => {
 					return _get(dsk, arg, cache, funcs);
 				})));
+				console.log(`dask-resolve:key=${result};value=${val}`);
 				deferred.resolve(val);
 				return val;
 			}
@@ -54,11 +60,13 @@ async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: str
 			const d = dsk[v as string];
 			if (d) {
 				const val = await _get(dsk, v as string, cache, funcs);
+				console.log(`dask-resolve:key=${result};value=${val}`);
 				deferred.resolve(val);
 				return val;
 			}
 		}
 	}
+	console.log(`dask-resolve:key=${result};value=${v}`);
 	deferred.resolve(v);
-	return Promise.resolve(v);
+	return v;
 }
