@@ -7,3 +7,4 @@ require('./006-param');
 require('./007-pack');
 require('./008-pack-min');
 require('./009-key');
+require('./010-ndarray');
