@@ -1,8 +1,5 @@
 language: node_js
-node_js:
-  - "7.9"
-before_script:
-  - npm install -g gulp
-script:
-  - gulp
-  - npm test
+os: linux
+node_js: node
+before_script: npm run build
+script: npm test
