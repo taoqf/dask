@@ -1,6 +1,6 @@
 {
 	"files": [
-		"./src/**/*.ts"
+		"./src/index.ts"
 	],
 	"exclude": [
 		"node_modules",
@@ -8,6 +8,7 @@
 		"jspm_packages",
 		"./dist"
 	],
+	"compileOnSave": false,
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "esnext",
@@ -36,14 +37,14 @@
 		"inlineSources": false,
 		"isolatedModules": false,
 		"lib": [
-			"es6",
-			"es7",
+			// "es6",
+			"esnext",
 			"dom"
 		],
-		"listFiles": true, // default false
-		"listEmittedFiles": true, // default false
+		"listFiles": false,
+		"listEmittedFiles": false,
 		"locale": "zh_CN",
-		"newLine": "CRLF",
+		"newLine": "lf",
 		"noEmit": false,
 		"moduleResolution": "node",
 		"noEmitHelpers": false,
@@ -68,7 +69,7 @@
 		"stripInternal": false,
 		"suppressExcessPropertyErrors": false,
 		"suppressImplicitAnyIndexErrors": true, // default false
-		"traceResolution": true, // default false
+		"traceResolution": false,
 		"typeRoots": [],
 		"types": [],
 		"watch": false

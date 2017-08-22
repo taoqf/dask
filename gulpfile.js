@@ -1,41 +1,18 @@
 const gulp = require('gulp');
+const sequence = require('gulp-sequence');
+const shell = require('gulp-shell');
 
-gulp.task('clean', function () {
-	const del = require('del');
-	return del('./dist/');
-});
+gulp.task('clean', shell.task('rm -rf ./dist/'));
 
-gulp.task('compile-ts', (cb) => {
-	const ts = require('gulp-typescript');
-	const tsProject = ts.createProject('./tsconfig.json');
-	// tsProject.options.module = 1;	// 'none' 0, 'CommonJS' 1, 'Amd' 2, 'System' 3, 'UMD' 4, or 'es2015'.5
-	const dest = tsProject.options.outDir;
-	return tsProject.src()
-		.pipe(tsProject())
-		.pipe(gulp.dest(dest));
-});
-
-gulp.task('compile-ts-umd', async () => {
-	const ts = require('gulp-typescript');
-	const tsProject = ts.createProject('./tsconfig.json');
-	tsProject.options.module = 3;
-	const path = require('path');
-	const dest = path.join(tsProject.options.outDir, 'umd');
-	tsProject.options.outDir = dest;
-	return gulp.src('./src/**/*.ts')
-		.pipe(tsProject())
-		.pipe(gulp.dest(dest));
-});
+gulp.task('compile-ts', shell.task('tsc'));
+gulp.task('compile-ts-umd', shell.task('tsc -m umd --outDir ./dist/umd/'));
 
 gulp.task('copy-files', () => {
 	return gulp.src('./package.json')
 		.pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('default', function (cb) {
-	const sequence = require('gulp-sequence');
-	return sequence('clean', 'compile-ts', 'pack', 'min', 'copy-files', 'compile-ts-umd', cb);
-});
+gulp.task('default', sequence('clean', 'compile-ts', 'pack', 'min', 'copy-files', 'compile-ts-umd'));
 
 gulp.task('pack', function () {
 	const browserify = require('browserify');
@@ -64,17 +41,6 @@ gulp.task('min', function (cb) {
 	], cb);
 });
 
-gulp.task('watch-ts', () => {
-	const ts = require('gulp-typescript');
-	const path = require('path');
-	return gulp.watch(['./src/**/*.ts'], (file) => {
-		const tsProject = ts.createProject('./tsconfig.json');
-		const relative = path.relative('./src/', path.dirname(file.path));
-		const dest = tsProject.options.outDir;
-		return gulp.src([file.path])
-			.pipe(tsProject())
-			.pipe(gulp.dest(dest));
-	});
-});
+gulp.task('watch-ts', shell.task('tsc -w'));
 
 gulp.task('dev', ['watch-ts']);
