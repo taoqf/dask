@@ -32,7 +32,7 @@ gulp.task('min', function (cb) {
 	pump([
 		gulp.src('./dist/dask.js'),
 		babel({
-			presets: ['latest'],
+			presets: ['env'],
 			plugins: ['transform-runtime']
 		}),
 		uglify(),
