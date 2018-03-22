@@ -22,9 +22,7 @@
 		"url": "https://github.com/taoqf/dask/issues"
 	},
 	"homepage": "https://github.com/taoqf/dask#readme",
-	"dependencies": {
-		"lodash-ts": "latest"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@types/mocha": "latest",
 		"@types/ndarray": "latest",

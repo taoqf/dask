@@ -14,7 +14,7 @@ gulp.task('copy-files', () => {
 
 gulp.task('default', sequence('clean', 'compile-ts', 'pack', 'min', 'copy-files', 'compile-ts-umd'));
 
-gulp.task('pack', function () {
+gulp.task('pack', () => {
 	const browserify = require('browserify');
 	const fs = require('fs');
 	return browserify(['./dist/index.js'], {
@@ -24,7 +24,7 @@ gulp.task('pack', function () {
 		.pipe(fs.createWriteStream('./dist/dask.js'));
 });
 
-gulp.task('min', function (cb) {
+gulp.task('min', (cb) => {
 	const rename = require('gulp-rename');
 	const babel = require('gulp-babel');
 	const uglify = require('gulp-uglify');

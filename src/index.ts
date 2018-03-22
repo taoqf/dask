@@ -1,7 +1,3 @@
-import isObject from 'lodash-ts/isObject';
-import isString from 'lodash-ts/isString';
-import isFunction from 'lodash-ts/isFunction';
-
 export interface Dask {
 	[key: string]: string | number | boolean | Object | { [fun: string]: any[]; };
 }
@@ -40,12 +36,12 @@ async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: str
 	}
 	const deferred = new Deferred<any>();
 	cache[result] = deferred;
-	if (isObject(v)) {
+	if (typeof v === 'object') {
 		const keys = Object.keys(v);
 		if (keys.length == 1) {
 			const fun_name = keys[0];
 			const fun = funcs[fun_name];
-			if (isFunction(fun)) {
+			if (typeof fun === 'function') {
 				const args = (v[fun_name] || []) as any[];
 				// console.log('dask-calling fun=', fun_name);
 				const val = await fun.apply(null, await Promise.all(args.map((arg) => {
@@ -57,10 +53,10 @@ async function _get(dsk: Dask, result: string/* | string[]*/, cache: { [key: str
 			}
 		}
 	} else {
-		if (isString(v)) {
-			const d = dsk[v as string];
+		if (typeof v === 'string') {
+			const d = dsk[v];
 			if (d) {
-				const val = await _get(dsk, v as string, cache, funcs);
+				const val = await _get(dsk, v, cache, funcs);
 				// console.log('dask-resolved', result, '=', val);
 				deferred.resolve(val);
 				return val;
